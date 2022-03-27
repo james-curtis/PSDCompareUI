@@ -15,7 +15,7 @@
         <el-col :span="2">
           <span>日期范围：</span>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="6">
           <el-date-picker
             v-model="daterange"
             type="daterange"
@@ -26,8 +26,11 @@
           >
           </el-date-picker>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="1">
           <el-button type="primary">重置</el-button>
+        </el-col>
+        <el-col :span="1">
+          <el-button icon="el-icon-search" circle @click="search"></el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -103,8 +106,7 @@
 </template>
 
 <script>
-console.log(process.env.BASE_URL);
-
+import { SearchCompareLogWithPage } from "@/api/axios";
 export default {
   name: "HistoryIndex",
   components: {},
@@ -115,6 +117,16 @@ export default {
     },
     handleDelete(index, row) {
       console.log(index, row);
+    },
+    search() {
+      SearchCompareLogWithPage({
+        search: this.searchText,
+        daterange: this.daterange,
+      }).then((res) => {
+        this.tableData = res.data.list;
+        console.log(res)
+      });
+      console.log();
     },
   },
   data() {
